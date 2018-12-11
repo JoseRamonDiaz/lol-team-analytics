@@ -1,0 +1,14 @@
+{
+  "name": "lol-team-analytics",
+  "version": "1.0.0",
+  "description": "check if a teammate has a posibility to use a champ, based on his game history",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jose.diaz",
+  "license": "ISC",
+  "dependencies": {
+    "op.gg-api": "^2.0.5-alpha"
+  }
+}
