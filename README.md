@@ -1,6 +1,6 @@
 lol-team-analitycs
 ==========
-Find sommer's champs info
+Find summoner's champs info
 
 Getting Started  
 ==========  
