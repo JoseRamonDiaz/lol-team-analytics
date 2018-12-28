@@ -1,0 +1,19 @@
+Frameworks
+	React.js
+    vue.js
+
+data
+	graphql
+
+backend
+	express js
+
+languages
+	python
+
+*********
+	webpack
+
+testing 
+	jest
+
