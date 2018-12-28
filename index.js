@@ -1,58 +1,66 @@
 var gg = new (require('./node_modules/op.gg-api/client.js'));
 var team = require('./team.js');
-
-async function getSummoners(){
-    let teamSummoners = await team.startToGeTeamSummoners();
-    console.log(teamSummoners);
-}
+let region = 'lan';
 
 getSummoners();
 
-//console.log("index: " + JSON.stringify(teamSummoners));
+async function getSummoners(){
+    let teamSummoners = await team.startToGeTeamSummoners();
 
-// let summonerName = 'quantum8';
-// let region = 'lan';
-// gg.Summary(region, summonerName)
-//     .then((response) => {
-//         gg.Renew(region, response.summonerId)
-//         .then(getChamps())
-//         .catch((error)=>{
-//             console.log(error);
-//         });
-//     })
-//     .catch((error)=> {
-//         console.log(error);
-//     });
+    await updateSummoners(teamSummoners);
 
-// function getChamps(){
-//     gg.Champions(region, summonerName, 11)
-//         .then((champions) => {
-//             champions.sort(sortByPercentageDesc);
-//             champions.forEach(champion => {
-//                 let champStats = champion.name + "\t" + 
-//                 ((champion.wins = champion.wins || 0) + (champion.losses + champion.losses || 0)) + 
-//                 "\t" + champion.winRatio + "%";
+    for(sum in teamSummoners){
+        getChamps(region, teamSummoners[sum]);
+    }
+    
+}
 
-//                 console.log(champStats);
-//             });
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//         });
-// }
+async function updateSummoners(teamSummoners){
+    return new Promise((resolve, reject) => {
 
-// function sortByPercentageDesc(championA, championB){
+        for(summoner in teamSummoners){
+            gg.Summary(region, teamSummoners[summoner]).then((resp)=>{
+                gg.Renew(region, resp.summonerId).then((resp2)=> {
+                    resolve("champs updated!");
+                });
+            });
+        }
+    });
+}
 
-//     //a > b
-//     if(championA.winRatio > championB.winRatio){
-//         return -1;
-//     }
+function getChamps(region, summonerName){
+    gg.Champions(region, summonerName, 11)
+        .then((champions) => {
+            printSummonerName(summonerName);
+            champions.sort(sortByPercentageDesc);
+            champions.forEach(champion => {
+                let champStats = champion.name + "\t" + 
+                ((champion.wins = champion.wins || 0) + (champion.losses + champion.losses || 0)) + 
+                "\t" + champion.winRatio + "%";
+                console.log(champStats);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
-//     // a < b
-//     if(championA.winRatio < championB.winRatio){
-//         return 1;
-//     }
+function printSummonerName(name){
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>" + name + ">>>>>>>>>>>>>>>>>>>>>>>>");
+}
 
-//     //a == b
-//     return 0;
-// }
+function sortByPercentageDesc(championA, championB){
+
+    //a > b
+    if(championA.winRatio > championB.winRatio){
+        return -1;
+    }
+
+    // a < b
+    if(championA.winRatio < championB.winRatio){
+        return 1;
+    }
+
+    //a == b
+    return 0;
+}
