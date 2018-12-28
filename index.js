@@ -1,3 +1,4 @@
+const cTable = require('console.table');
 var gg = new (require('./node_modules/op.gg-api/client.js'));
 var team = require('./team.js');
 let region = 'lan';
@@ -21,7 +22,7 @@ async function updateSummoners(teamSummoners){
         for(summoner in teamSummoners){
             gg.Summary(region, teamSummoners[summoner]).then((resp)=>{
                 gg.Renew(region, resp.summonerId).then((resp2)=> {
-                    resolve("champs updated!");
+                    resolve(resp2);
                 });
             });
         }
@@ -31,22 +32,24 @@ async function updateSummoners(teamSummoners){
 function getChamps(region, summonerName){
     gg.Champions(region, summonerName, 11)
         .then((champions) => {
-            printSummonerName(summonerName);
             champions.sort(sortByPercentageDesc);
-            champions.forEach(champion => {
-                let champStats = champion.name + "\t" + 
-                ((champion.wins = champion.wins || 0) + (champion.losses + champion.losses || 0)) + 
-                "\t" + champion.winRatio + "%";
-                console.log(champStats);
-            });
+            let usefulChampStats = getUsefulStats(champions);
+            console.table(summonerName,usefulChampStats);
         })
         .catch((error) => {
             console.log(error);
         });
 }
 
-function printSummonerName(name){
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>" + name + ">>>>>>>>>>>>>>>>>>>>>>>>");
+function getUsefulStats(champions){
+
+    let usefulChampStats = new Array();
+
+    for(element in champions){
+        usefulChampStats.push({name: champions[element].name, wins: champions[element].wins || 0, losses: champions[element].losses || 0, winRatio: champions[element].winRatio+'%'});
+    }
+
+    return usefulChampStats;
 }
 
 function sortByPercentageDesc(championA, championB){
