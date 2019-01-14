@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "console.table": "^0.10.0",
-    "op.gg-api": "^2.0.5-alpha"
+    "@slayermx/lol": "^1.0.0"
   }
 }

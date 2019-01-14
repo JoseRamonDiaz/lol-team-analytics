@@ -1,5 +1,5 @@
 const cTable = require('console.table');
-var gg = new (require('./node_modules/op.gg-api/client.js'));
+var gg = new (require('./node_modules/@slayermx/lol/client.js'));
 var team = require('./team.js');
 let region = 'lan';
 
