@@ -2,6 +2,7 @@ const cTable = require('console.table');
 var gg = new (require('./node_modules/@slayermx/lol/client.js'));
 var team = require('./team.js');
 let region = 'lan';
+let season = '11';
 
 start();
 
@@ -44,7 +45,7 @@ async function updateSummoners(teamSummoners) {
 }
 
 function getChamps(region, summonerName) {
-    return gg.Champions(region, summonerName, 11)
+    return gg.Champions(region, summonerName, season)
         .then((champions) => {
             return new Promise((resolve, reject) => {
                 champions.sort(sortByPercentageDesc);
