@@ -5,5 +5,5 @@ Find summoner's champs info
 * Download the repo
 * run "npm i"
 
-##Run
+## Run
 * Type "npm start"
